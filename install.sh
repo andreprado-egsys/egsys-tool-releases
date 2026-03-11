@@ -1,16 +1,15 @@
 #!/bin/bash
-# egSYS SAPA Tool - Instalador e Compilador Universal v2.1.2
-# Gera um binário standalone e cria um desinstalador.
+# egSYS SAPA Tool - Instalador de Binário v2.1.2
+# Baixa executável pré-compilado do GitHub Releases
 
 set -e
 
 # --- Configurações ---
+VERSION="2.1.2"
+REPO="andreprado-egsys/egsys-tool-releases"
 APP_NAME="egsys"
 INSTALL_DIR="/opt/egsys-tool"
 BIN_DIR="/usr/local/bin"
-BUILD_DIR="/tmp/egsys-build"
-REPO_PUBLIC="https://github.com/andreprado-egsys/egsys-tool-releases.git"
-CONSTANTS_URL="https://raw.githubusercontent.com/andreprado-egsys/egsys-tool/main/config/constants.py"
 
 # --- Cores ---
 RED='\033[0;31m'
@@ -23,7 +22,7 @@ NC='\033[0m'
 
 print_header() {
     echo -e "${CYAN}╔════════════════════════════════════════╗${NC}"
-    echo -e "${CYAN}║  egSYS SAPA Tool - Build & Install v2.1║${NC}"
+    echo -e "${CYAN}║  egSYS SAPA Tool - Instalador v${VERSION}  ║${NC}"
     echo -e "${CYAN}╚════════════════════════════════════════╝${NC}"
     echo ""
 }
@@ -54,7 +53,7 @@ rm -rf "/opt/egsys-tool"
 rm -f "/usr/share/applications/egsys.desktop"
 
 # Remove diretórios de log (se vazios)
-rmdir /var/log/egsys-tool 2>/dev/null || echo "Diretório de log /var/log/egsys-tool não está vazio. Deixado para inspeção manual."
+rmdir /var/log/egsys-tool 2>/dev/null || echo "Diretório de log não está vazio. Deixado para inspeção manual."
 
 # Atualiza cache de aplicativos
 if command -v update-desktop-database &> /dev/null; then
@@ -71,77 +70,73 @@ EOFUNINSTALL
 print_header
 check_root
 
-# Clona repositório público
-echo -e "${GREEN}[MODO]${NC} Clonando repositório público..."
-rm -rf "$BUILD_DIR/repo"
-mkdir -p "$BUILD_DIR/repo"
-git clone "$REPO_PUBLIC" "$BUILD_DIR/repo"
-SOURCE_DIR="$BUILD_DIR/repo"
-
-# Baixa constants.py do repositório privado (com dados reais)
-echo -e "${CYAN}[CONFIG]${NC} Baixando configurações do repositório privado..."
-if ! curl -fsSL "$CONSTANTS_URL" -o "$SOURCE_DIR/config/constants.py" 2>/dev/null; then
-    echo -e "${RED}[ERRO]${NC} Falha ao baixar configurações do repositório privado"
-    echo -e "${YELLOW}[INFO]${NC} Verifique se você tem acesso ao repositório privado"
-    exit 1
-fi
-
-# Detecta Distribuição
-if [ -f /etc/os-release ]; then
-    . /etc/os-release
-    DISTRO=$ID
-else
-    echo -e "${RED}[ERRO]${NC} Distribuição não detectada."
-    exit 1
-fi
-
-# Instala dependências de build
-echo -e "${CYAN}[DEPS]${NC} Instalando dependências de compilação..."
-case $DISTRO in
-    ubuntu|debian|zorin|linuxmint|pop|kali)
-        apt-get update -qq
-        apt-get install -y python3 python3-pip python3-venv python3-dev build-essential git curl
+# Detecta arquitetura
+echo -e "${CYAN}[SISTEMA]${NC} Detectando arquitetura..."
+ARCH=$(uname -m)
+case $ARCH in
+    x86_64)
+        BINARY_NAME="egsys-linux-x86_64"
         ;;
-    arch|manjaro|cachyos|endeavouros)
-        pacman -Sy --noconfirm --needed python python-pip python-virtualenv base-devel git curl
+    aarch64|arm64)
+        BINARY_NAME="egsys-linux-arm64"
         ;;
-    fedora|rhel|centos)
-        dnf install -y python3 python3-pip python3-devel gcc git curl
+    *)
+        echo -e "${RED}[ERRO]${NC} Arquitetura $ARCH não suportada"
+        echo -e "Arquiteturas suportadas: x86_64, aarch64, arm64"
+        exit 1
         ;;
 esac
 
-# Prepara ambiente de build
-echo -e "${CYAN}[BUILD]${NC} Preparando ambiente virtual..."
-rm -rf "$BUILD_DIR/venv"
-python3 -m venv "$BUILD_DIR/venv"
-source "$BUILD_DIR/venv/bin/activate"
+echo -e "${GREEN}[INFO]${NC} Arquitetura: $ARCH"
 
-# Instala dependências Python e PyInstaller
-echo -e "${CYAN}[PIP]${NC} Instalando PyInstaller e dependências..."
-pip install --upgrade pip --quiet
-pip install -r "$SOURCE_DIR/requirements.txt" --quiet
+# Cria diretórios
+echo -e "${CYAN}[SETUP]${NC} Criando diretórios..."
+mkdir -p "$INSTALL_DIR"
+mkdir -p "$BIN_DIR"
 
-# Compila o binário
-echo -e "${CYAN}[COMPILANDO]${NC} Gerando binário standalone..."
-cd "$SOURCE_DIR"
-pyinstaller --clean --onefile --name "$APP_NAME" --strip --paths=. main.py
+# Baixa binário do GitHub Releases
+echo -e "${CYAN}[DOWNLOAD]${NC} Baixando executável do GitHub Releases..."
+DOWNLOAD_URL="https://github.com/$REPO/releases/download/v${VERSION}/$BINARY_NAME"
 
-# Instala o binário
-echo -e "${CYAN}[INSTALANDO]${NC} Movendo binário para $BIN_DIR..."
-if [ -f "dist/$APP_NAME" ]; then
-    cp "dist/$APP_NAME" "$BIN_DIR/$APP_NAME"
-    chmod +x "$BIN_DIR/$APP_NAME"
+echo -e "${YELLOW}URL:${NC} $DOWNLOAD_URL"
+
+if command -v curl &> /dev/null; then
+    if ! curl -fL "$DOWNLOAD_URL" -o "$INSTALL_DIR/$APP_NAME" 2>&1; then
+        echo -e "${RED}[ERRO]${NC} Falha ao baixar binário"
+        echo -e "Verifique se a release v${VERSION} existe no GitHub"
+        exit 1
+    fi
+elif command -v wget &> /dev/null; then
+    if ! wget -q "$DOWNLOAD_URL" -O "$INSTALL_DIR/$APP_NAME" 2>&1; then
+        echo -e "${RED}[ERRO]${NC} Falha ao baixar binário"
+        echo -e "Verifique se a release v${VERSION} existe no GitHub"
+        exit 1
+    fi
 else
-    echo -e "${RED}[ERRO]${NC} Falha na compilação. Binário não encontrado."
+    echo -e "${RED}[ERRO]${NC} curl ou wget não encontrado"
+    echo -e "Instale curl ou wget e tente novamente"
     exit 1
 fi
 
-# Instala recursos (ícone e .desktop)
-echo -e "${CYAN}[RECURSOS]${NC} Configurando atalhos..."
-mkdir -p "$INSTALL_DIR/assets"
+# Verifica se o download foi bem-sucedido
+if [ ! -f "$INSTALL_DIR/$APP_NAME" ] || [ ! -s "$INSTALL_DIR/$APP_NAME" ]; then
+    echo -e "${RED}[ERRO]${NC} Arquivo binário não foi baixado corretamente"
+    exit 1
+fi
 
-# Baixa ícone do repositório público
-if curl -fsSL "https://raw.githubusercontent.com/andreprado-egsys/egsys-tool-releases/main/egsys-icon.png" \
+echo -e "${GREEN}[OK]${NC} Binário baixado com sucesso"
+
+# Define permissões
+chmod +x "$INSTALL_DIR/$APP_NAME"
+
+# Cria link simbólico
+echo -e "${CYAN}[LINK]${NC} Criando link simbólico..."
+ln -sf "$INSTALL_DIR/$APP_NAME" "$BIN_DIR/$APP_NAME"
+
+# Baixa ícone
+echo -e "${CYAN}[RECURSOS]${NC} Baixando ícone..."
+mkdir -p "$INSTALL_DIR/assets"
+if curl -fsSL "https://raw.githubusercontent.com/$REPO/main/egsys-icon.png" \
     -o "$INSTALL_DIR/assets/egsys-icon.png" 2>/dev/null; then
     ICON_PATH="$INSTALL_DIR/assets/egsys-icon.png"
     echo -e "${GREEN}[OK]${NC} Ícone baixado"
@@ -150,6 +145,8 @@ else
     echo -e "${YELLOW}[AVISO]${NC} Ícone não encontrado, usando padrão"
 fi
 
+# Cria entrada no menu
+echo -e "${CYAN}[DESKTOP]${NC} Configurando atalho no menu..."
 cat > /usr/share/applications/egsys.desktop << EOFDESKTOP
 [Desktop Entry]
 Version=1.0
@@ -165,11 +162,13 @@ StartupNotify=false
 EOFDESKTOP
 
 chmod 644 /usr/share/applications/egsys.desktop
+
+# Atualiza cache de aplicativos
 if command -v update-desktop-database &> /dev/null; then
     update-desktop-database /usr/share/applications/ 2>/dev/null || true
 fi
 
-# Configura logs
+# Configura diretórios de log
 echo -e "${CYAN}[LOGS]${NC} Configurando diretórios de log..."
 mkdir -p /var/log/egsys-tool
 chmod 777 /var/log/egsys-tool
@@ -201,10 +200,8 @@ chmod +x "$BIN_DIR/egsys-update"
 # Cria desinstalador
 create_uninstaller
 
-# Limpeza
-echo -e "${CYAN}[LIMPEZA]${NC} Removendo arquivos temporários..."
-deactivate
-rm -rf "$BUILD_DIR"
+# Limpeza (se necessário)
+echo -e "${CYAN}[LIMPEZA]${NC} Finalizando instalação..."
 
 echo ""
 echo -e "${GREEN}╔════════════════════════════════════════╗${NC}"
