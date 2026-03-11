@@ -6,12 +6,12 @@ Sistema de Avaliação e Performance de Ambientes para gerenciamento multi-servi
 
 ### Ubuntu / Debian / Zorin / Linux Mint
 ```bash
-curl -fsSL https://raw.githubusercontent.com/andreprado-egsys/egsys-tool-releases/main/install-ubuntu.sh | sudo bash
+wget -qO- https://raw.githubusercontent.com/andreprado-egsys/egsys-tool-releases/main/install-ubuntu.sh | sudo bash
 ```
 
-**Ou com wget:**
+**Ou com curl:**
 ```bash
-wget -qO- https://raw.githubusercontent.com/andreprado-egsys/egsys-tool-releases/main/install-ubuntu.sh | sudo bash
+curl -fsSL https://raw.githubusercontent.com/andreprado-egsys/egsys-tool-releases/main/install-ubuntu.sh | sudo bash
 ```
 
 ### Arch Linux / Manjaro / CachyOS / EndeavourOS
