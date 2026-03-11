@@ -1,62 +1,73 @@
-# egSYS SAPA Tool - Instalação
+# egSYS SAPA Tool - Releases Públicos
 
-**Versão 2.1.2** - Sistema de Gerenciamento Multi-Servidor
-
-[![Platform](https://img.shields.io/badge/platform-Linux-lightgrey.svg)](https://www.linux.org/)
+Sistema de Avaliação e Performance de Ambientes para gerenciamento multi-servidor.
 
 ## 🚀 Instalação Rápida
 
+### Ubuntu / Debian / Zorin / Linux Mint
 ```bash
-curl -fsSL https://raw.githubusercontent.com/andreprado-egsys/egsys-tool-releases/main/install.sh | sudo bash
+curl -fsSL https://raw.githubusercontent.com/andreprado-egsys/egsys-tool-releases/main/install-ubuntu.sh | sudo bash
+```
+
+**Ou com wget:**
+```bash
+wget -qO- https://raw.githubusercontent.com/andreprado-egsys/egsys-tool-releases/main/install-ubuntu.sh | sudo bash
+```
+
+### Arch Linux / Manjaro / CachyOS / EndeavourOS
+```bash
+curl -fsSL https://raw.githubusercontent.com/andreprado-egsys/egsys-tool-releases/main/install-arch.sh | sudo bash
+```
+
+**Ou com wget:**
+```bash
+wget -qO- https://raw.githubusercontent.com/andreprado-egsys/egsys-tool-releases/main/install-arch.sh | sudo bash
+```
+
+## 📦 Binários Disponíveis
+
+- **egsys-ubuntu**: Compilado em Ubuntu 22.04 (Python 3.10, GLIBC 2.35)
+  - Compatível com: Ubuntu 20.04+, Debian 11+, Zorin OS, Linux Mint
+  
+- **egsys-arch**: Compilado em Arch Linux (Python 3.14, GLIBC 2.43)
+  - Compatível com: Arch Linux, Manjaro, CachyOS, EndeavourOS, Garuda
+
+## 🔧 Comandos Pós-Instalação
+
+```bash
+# Executar a ferramenta
+egsys
+
+# Atualizar para versão mais recente
+sudo egsys-update
+
+# Desinstalar
+sudo egsys-uninstall
 ```
 
 ## 📋 Requisitos
 
-- Linux (Ubuntu, Debian, Arch, Fedora, etc)
-- Acesso root/sudo
+- Sistema operacional: Linux (64-bit)
+- Privilégios: sudo/root para instalação
+- Ferramentas: wget ou curl
+- Espaço em disco: ~10 MB
 
-## 🔧 Instalação Manual
+## 🔐 Segurança
 
-```bash
-# 1. Baixe o instalador
-wget https://raw.githubusercontent.com/andreprado-egsys/egsys-tool-releases/main/install.sh
+- Binários compilados em containers Docker isolados
+- Código-fonte mantido em repositório privado
+- Releases assinados e verificáveis via GitHub
 
-# 2. Execute
-chmod +x install.sh
-sudo ./install.sh
-```
+## 📝 Changelog
 
-## 📦 O que será instalado
-
-- Binário em `/opt/egsys-tool/`
-- Comando global `egsys`
-- Diretórios de log
-- Comandos de atualização e desinstalação
-
-## 🔄 Atualizar
-
-```bash
-sudo egsys-update
-```
-
-## 🗑️ Desinstalar
-
-```bash
-sudo egsys-uninstall
-```
-
-## 📖 Uso
-
-Após instalação, execute:
-
-```bash
-egsys
-```
+Veja [CHANGELOG.md](CHANGELOG.md) para histórico completo de versões.
 
 ## 🆘 Suporte
 
-Para suporte, entre em contato com a equipe egSYS.
+Para problemas ou dúvidas:
+- Abra uma issue neste repositório
+- Entre em contato com a equipe egSYS
 
 ## 📄 Licença
 
-Proprietary - egSYS © 2026
+Propriedade da egSYS. Todos os direitos reservados.
