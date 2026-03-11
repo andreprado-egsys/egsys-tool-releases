@@ -4,9 +4,7 @@
 set -e
 
 VERSION="2.1.2"
-REPO="andreprado-egsys/egsys-tool-releases"
 APP_NAME="egsys"
-BINARY_NAME="egsys-arch"
 INSTALL_DIR="/opt/egsys-tool"
 BIN_DIR="/usr/local/bin"
 
@@ -72,15 +70,14 @@ fi
 mkdir -p "$INSTALL_DIR" "$BIN_DIR"
 
 echo -e "${CYAN}[DOWNLOAD]${NC} Baixando binário Arch..."
-DOWNLOAD_URL="https://github.com/$REPO/releases/download/v${VERSION}/$BINARY_NAME"
 
 if command -v curl &> /dev/null; then
-    curl -fL "$DOWNLOAD_URL" -o "$INSTALL_DIR/$APP_NAME" || {
+    curl -fL https://github.com/andreprado-egsys/egsys-tool-releases/releases/download/v2.1.2/egsys-arch -o "$INSTALL_DIR/$APP_NAME" || {
         echo -e "${RED}[ERRO]${NC} Falha ao baixar binário"
         exit 1
     }
 elif command -v wget &> /dev/null; then
-    wget -q "$DOWNLOAD_URL" -O "$INSTALL_DIR/$APP_NAME" || {
+    wget -q --show-progress https://github.com/andreprado-egsys/egsys-tool-releases/releases/download/v2.1.2/egsys-arch -O "$INSTALL_DIR/$APP_NAME" || {
         echo -e "${RED}[ERRO]${NC} Falha ao baixar binário"
         exit 1
     }
@@ -98,9 +95,11 @@ echo -e "${GREEN}[OK]${NC} Binário instalado: $(du -h "$INSTALL_DIR/$APP_NAME" 
 
 echo -e "${CYAN}[RECURSOS]${NC} Configurando ícone e menu..."
 mkdir -p "$INSTALL_DIR/assets"
-if curl -fsSL "https://raw.githubusercontent.com/$REPO/main/egsys-icon.png" \
-    -o "$INSTALL_DIR/assets/egsys-icon.png" 2>/dev/null; then
-    ICON_PATH="$INSTALL_DIR/assets/egsys-icon.png"
+
+if command -v curl &> /dev/null; then
+    curl -fsSL https://raw.githubusercontent.com/andreprado-egsys/egsys-tool-releases/main/egsys-icon.png -o "$INSTALL_DIR/assets/egsys-icon.png" 2>/dev/null && ICON_PATH="$INSTALL_DIR/assets/egsys-icon.png" || ICON_PATH="utilities-terminal"
+elif command -v wget &> /dev/null; then
+    wget -q https://raw.githubusercontent.com/andreprado-egsys/egsys-tool-releases/main/egsys-icon.png -O "$INSTALL_DIR/assets/egsys-icon.png" 2>/dev/null && ICON_PATH="$INSTALL_DIR/assets/egsys-icon.png" || ICON_PATH="utilities-terminal"
 else
     ICON_PATH="utilities-terminal"
 fi
@@ -137,7 +136,11 @@ done
 cat > "$BIN_DIR/egsys-update" << 'EOFUPDATE'
 #!/bin/bash
 [ "$EUID" -ne 0 ] && echo -e "\033[0;31mERRO:\033[0m Execute como root" && exit 1
-curl -fsSL https://raw.githubusercontent.com/andreprado-egsys/egsys-tool-releases/main/install-arch.sh | bash
+if command -v curl &> /dev/null; then
+    curl -fsSL https://raw.githubusercontent.com/andreprado-egsys/egsys-tool-releases/main/install-arch.sh | bash
+else
+    wget -qO- https://raw.githubusercontent.com/andreprado-egsys/egsys-tool-releases/main/install-arch.sh | bash
+fi
 EOFUPDATE
 chmod +x "$BIN_DIR/egsys-update"
 
