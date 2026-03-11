@@ -9,7 +9,8 @@ APP_NAME="egsys"
 INSTALL_DIR="/opt/egsys-tool"
 BIN_DIR="/usr/local/bin"
 BUILD_DIR="/tmp/egsys-build"
-REPO_URL="https://github.com/andreprado-egsys/egsys-tool-releases.git"
+REPO_PUBLIC="https://github.com/andreprado-egsys/egsys-tool-releases.git"
+CONSTANTS_URL="https://raw.githubusercontent.com/andreprado-egsys/egsys-tool/main/config/constants.py"
 
 # --- Cores ---
 RED='\033[0;31m'
@@ -70,12 +71,20 @@ EOFUNINSTALL
 print_header
 check_root
 
-# Clona repositório para compilação
-echo -e "${GREEN}[MODO]${NC} Clonando repositório para compilação..."
+# Clona repositório público
+echo -e "${GREEN}[MODO]${NC} Clonando repositório público..."
 rm -rf "$BUILD_DIR/repo"
 mkdir -p "$BUILD_DIR/repo"
-git clone "$REPO_URL" "$BUILD_DIR/repo"
+git clone "$REPO_PUBLIC" "$BUILD_DIR/repo"
 SOURCE_DIR="$BUILD_DIR/repo"
+
+# Baixa constants.py do repositório privado (com dados reais)
+echo -e "${CYAN}[CONFIG]${NC} Baixando configurações do repositório privado..."
+if ! curl -fsSL "$CONSTANTS_URL" -o "$SOURCE_DIR/config/constants.py" 2>/dev/null; then
+    echo -e "${RED}[ERRO]${NC} Falha ao baixar configurações do repositório privado"
+    echo -e "${YELLOW}[INFO]${NC} Verifique se você tem acesso ao repositório privado"
+    exit 1
+fi
 
 # Detecta Distribuição
 if [ -f /etc/os-release ]; then
