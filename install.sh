@@ -1,6 +1,6 @@
 #!/bin/bash
-# egSYS SAPA Tool - Instalador Automático
-# Baixa binário do GitHub Releases
+# egSYS SAPA Tool - Instalador com Compilação
+# Para Ubuntu/Debian e outras distros
 
 set -e
 
@@ -50,12 +50,9 @@ mkdir -p "$BIN_DIR"
 echo -e "${CYAN}[DOWNLOAD]${NC} Baixando executável..."
 DOWNLOAD_URL="https://github.com/$REPO/releases/download/v${VERSION}/$BINARY_NAME"
 
-echo -e "${YELLOW}URL:${NC} $DOWNLOAD_URL"
-
 if command -v curl &> /dev/null; then
     if ! curl -fL "$DOWNLOAD_URL" -o "$INSTALL_DIR/$APP_NAME" 2>&1; then
         echo -e "${RED}[ERRO]${NC} Falha ao baixar binário"
-        echo -e "Verifique se a release v${VERSION} existe"
         exit 1
     fi
 elif command -v wget &> /dev/null; then
@@ -79,6 +76,38 @@ chmod +x "$INSTALL_DIR/$APP_NAME"
 
 echo -e "${CYAN}[LINK]${NC} Criando link simbólico..."
 ln -sf "$INSTALL_DIR/$APP_NAME" "$BIN_DIR/$APP_NAME"
+
+echo -e "${CYAN}[RECURSOS]${NC} Configurando ícone..."
+mkdir -p "$INSTALL_DIR/assets"
+if curl -fsSL "https://raw.githubusercontent.com/$REPO/main/egsys-icon.png" \
+    -o "$INSTALL_DIR/assets/egsys-icon.png" 2>/dev/null; then
+    ICON_PATH="$INSTALL_DIR/assets/egsys-icon.png"
+    echo -e "${GREEN}[OK]${NC} Ícone baixado"
+else
+    ICON_PATH="utilities-terminal"
+    echo -e "${YELLOW}[AVISO]${NC} Usando ícone padrão"
+fi
+
+echo -e "${CYAN}[DESKTOP]${NC} Criando atalho no menu..."
+cat > /usr/share/applications/egsys.desktop << EOF
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=egSYS SAPA Tool
+Comment=Sistema de Avaliação e Performance de Ambientes
+Exec=$BIN_DIR/$APP_NAME
+Icon=$ICON_PATH
+Terminal=true
+Categories=System;Network;RemoteAccess;
+Keywords=ssh;vpn;server;management;monitoring;
+StartupNotify=false
+EOF
+
+chmod 644 /usr/share/applications/egsys.desktop
+
+if command -v update-desktop-database &> /dev/null; then
+    update-desktop-database /usr/share/applications/ 2>/dev/null || true
+fi
 
 echo -e "${CYAN}[LOGS]${NC} Configurando diretórios de log..."
 mkdir -p /var/log/egsys-tool
@@ -118,6 +147,10 @@ rm -f "/usr/local/bin/egsys"
 rm -f "/usr/local/bin/egsys-update"
 rm -f "/usr/local/bin/egsys-uninstall"
 rm -rf "/opt/egsys-tool"
+rm -f "/usr/share/applications/egsys.desktop"
+if command -v update-desktop-database &> /dev/null; then
+    update-desktop-database /usr/share/applications/ 2>/dev/null || true
+fi
 echo -e "\n\033[0;32m✓ egSYS SAPA Tool desinstalado.\033[0m\n"
 EOFUNINSTALL
 
