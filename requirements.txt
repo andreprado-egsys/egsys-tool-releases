@@ -1,0 +1,3 @@
+pexpect>=4.8.0
+pwinput>=1.0.2
+pyinstaller>=5.0
