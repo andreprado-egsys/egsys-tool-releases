@@ -72,18 +72,14 @@ fi
 mkdir -p "$INSTALL_DIR" "$BIN_DIR"
 
 echo -e "${CYAN}[DOWNLOAD]${NC} Baixando binário Ubuntu..."
-DOWNLOAD_URL="https://github.com/${REPO}/releases/download/v${VERSION}/${BINARY_NAME}"
-
-echo -e "${YELLOW}[DEBUG]${NC} URL: $DOWNLOAD_URL"
 
 if command -v curl &> /dev/null; then
-    curl -fL "$DOWNLOAD_URL" -o "$INSTALL_DIR/$APP_NAME" || {
+    curl -fL https://github.com/andreprado-egsys/egsys-tool-releases/releases/download/v2.1.2/egsys-ubuntu -o "$INSTALL_DIR/$APP_NAME" || {
         echo -e "${RED}[ERRO]${NC} Falha ao baixar binário"
-        echo -e "${RED}[DEBUG]${NC} Verifique: $DOWNLOAD_URL"
         exit 1
     }
 elif command -v wget &> /dev/null; then
-    wget -q "$DOWNLOAD_URL" -O "$INSTALL_DIR/$APP_NAME" || {
+    wget -q https://github.com/andreprado-egsys/egsys-tool-releases/releases/download/v2.1.2/egsys-ubuntu -O "$INSTALL_DIR/$APP_NAME" || {
         echo -e "${RED}[ERRO]${NC} Falha ao baixar binário"
         exit 1
     }
@@ -101,8 +97,7 @@ echo -e "${GREEN}[OK]${NC} Binário instalado: $(du -h "$INSTALL_DIR/$APP_NAME" 
 
 echo -e "${CYAN}[RECURSOS]${NC} Configurando ícone e menu..."
 mkdir -p "$INSTALL_DIR/assets"
-if curl -fsSL "https://raw.githubusercontent.com/${REPO}/main/egsys-icon.png" \
-    -o "$INSTALL_DIR/assets/egsys-icon.png" 2>/dev/null; then
+if curl -fsSL https://raw.githubusercontent.com/andreprado-egsys/egsys-tool-releases/main/egsys-icon.png -o "$INSTALL_DIR/assets/egsys-icon.png" 2>/dev/null; then
     ICON_PATH="$INSTALL_DIR/assets/egsys-icon.png"
 else
     ICON_PATH="utilities-terminal"
