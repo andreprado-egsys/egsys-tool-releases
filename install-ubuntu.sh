@@ -1,9 +1,9 @@
 #!/bin/bash
-# egSYS SAPA Tool - Instalador Ubuntu/Debian v2.1.4
+# egSYS SAPA Tool - Instalador Ubuntu/Debian v2.1.6
 
 set -e
 
-VERSION="2.1.4"
+VERSION="2.1.6"
 APP_NAME="egsys"
 INSTALL_DIR="/opt/egsys-tool"
 BIN_DIR="/usr/local/bin"
@@ -72,12 +72,12 @@ mkdir -p "$INSTALL_DIR" "$BIN_DIR"
 echo -e "${CYAN}[DOWNLOAD]${NC} Baixando binário Ubuntu..."
 
 if command -v wget &> /dev/null; then
-    wget -q --show-progress https://github.com/andreprado-egsys/egsys-tool-releases/releases/download/v2.1.4/egsys-ubuntu -O "$INSTALL_DIR/$APP_NAME" || {
+    wget -q --show-progress https://github.com/andreprado-egsys/egsys-tool-releases/releases/download/v2.1.6/egsys-ubuntu -O "$INSTALL_DIR/$APP_NAME" || {
         echo -e "${RED}[ERRO]${NC} Falha ao baixar binário"
         exit 1
     }
 elif command -v curl &> /dev/null; then
-    curl -fL https://github.com/andreprado-egsys/egsys-tool-releases/releases/download/v2.1.4/egsys-ubuntu -o "$INSTALL_DIR/$APP_NAME" || {
+    curl -fL https://github.com/andreprado-egsys/egsys-tool-releases/releases/download/v2.1.6/egsys-ubuntu -o "$INSTALL_DIR/$APP_NAME" || {
         echo -e "${RED}[ERRO]${NC} Falha ao baixar binário"
         exit 1
     }
