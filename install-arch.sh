@@ -1,9 +1,9 @@
 #!/bin/bash
-# egSYS SAPA Tool - Instalador Arch Linux v2.1.2
+# egSYS SAPA Tool - Instalador Arch Linux v2.1.4
 
 set -e
 
-VERSION="2.1.2"
+VERSION="2.1.4"
 APP_NAME="egsys"
 INSTALL_DIR="/opt/egsys-tool"
 BIN_DIR="/usr/local/bin"
@@ -72,12 +72,12 @@ mkdir -p "$INSTALL_DIR" "$BIN_DIR"
 echo -e "${CYAN}[DOWNLOAD]${NC} Baixando binário Arch..."
 
 if command -v curl &> /dev/null; then
-    curl -fL https://github.com/andreprado-egsys/egsys-tool-releases/releases/download/v2.1.2/egsys-arch -o "$INSTALL_DIR/$APP_NAME" || {
+    curl -fL https://github.com/andreprado-egsys/egsys-tool-releases/releases/download/v2.1.4/egsys-arch -o "$INSTALL_DIR/$APP_NAME" || {
         echo -e "${RED}[ERRO]${NC} Falha ao baixar binário"
         exit 1
     }
 elif command -v wget &> /dev/null; then
-    wget -q --show-progress https://github.com/andreprado-egsys/egsys-tool-releases/releases/download/v2.1.2/egsys-arch -O "$INSTALL_DIR/$APP_NAME" || {
+    wget -q --show-progress https://github.com/andreprado-egsys/egsys-tool-releases/releases/download/v2.1.4/egsys-arch -O "$INSTALL_DIR/$APP_NAME" || {
         echo -e "${RED}[ERRO]${NC} Falha ao baixar binário"
         exit 1
     }
