@@ -69,15 +69,15 @@ fi
 
 mkdir -p "$INSTALL_DIR" "$BIN_DIR"
 
-echo -e "${CYAN}[DOWNLOAD]${NC} Baixando binário Arch..."
+echo -e "${CYAN}[DOWNLOAD]${NC} Baixando binário Arch v${VERSION}..."
 
 if command -v curl &> /dev/null; then
-    curl -fL https://github.com/andreprado-egsys/egsys-tool-releases/releases/download/v2.1.7/egsys-arch -o "$INSTALL_DIR/$APP_NAME" || {
+    curl -fL "https://github.com/andreprado-egsys/egsys-tool-releases/releases/download/v${VERSION}/egsys-arch" -o "$INSTALL_DIR/$APP_NAME" || {
         echo -e "${RED}[ERRO]${NC} Falha ao baixar binário"
         exit 1
     }
 elif command -v wget &> /dev/null; then
-    wget -q --show-progress https://github.com/andreprado-egsys/egsys-tool-releases/releases/download/v2.1.7/egsys-arch -O "$INSTALL_DIR/$APP_NAME" || {
+    wget -q --show-progress "https://github.com/andreprado-egsys/egsys-tool-releases/releases/download/v${VERSION}/egsys-arch" -O "$INSTALL_DIR/$APP_NAME" || {
         echo -e "${RED}[ERRO]${NC} Falha ao baixar binário"
         exit 1
     }
