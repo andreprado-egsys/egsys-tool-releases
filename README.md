@@ -1,6 +1,6 @@
 # egSYS SAPA Tool - Releases Públicos
 
-**Versão Atual: 2.1.6**
+**Versão Atual: 2.1.7**
 
 Sistema de Avaliação e Performance de Ambientes para gerenciamento multi-servidor.
 
