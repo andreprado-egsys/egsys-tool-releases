@@ -3,7 +3,7 @@
 
 set -e
 
-VERSION="2.1.9"
+EGSYS_VERSION="2.1.9"
 APP_NAME="egsys"
 INSTALL_DIR="/opt/egsys-tool"
 BIN_DIR="/usr/local/bin"
@@ -16,7 +16,7 @@ NC='\033[0m'
 
 print_header() {
     echo -e "${CYAN}╔════════════════════════════════════════╗${NC}"
-    echo -e "${CYAN}║  egSYS Tool - Ubuntu/Debian v${VERSION}   ║${NC}"
+    echo -e "${CYAN}║  egSYS Tool - Ubuntu/Debian v${EGSYS_VERSION}   ║${NC}"
     echo -e "${CYAN}╚════════════════════════════════════════╝${NC}"
     echo ""
 }
@@ -69,15 +69,15 @@ fi
 
 mkdir -p "$INSTALL_DIR" "$BIN_DIR"
 
-echo -e "${CYAN}[DOWNLOAD]${NC} Baixando binário Ubuntu v${VERSION}..."
+echo -e "${CYAN}[DOWNLOAD]${NC} Baixando binário Ubuntu v${EGSYS_VERSION}..."
 
 if command -v wget &> /dev/null; then
-    wget -q --show-progress "https://github.com/andreprado-egsys/egsys-tool-releases/releases/download/v${VERSION}/egsys-ubuntu" -O "$INSTALL_DIR/$APP_NAME" || {
+    wget -q --show-progress "https://github.com/andreprado-egsys/egsys-tool-releases/releases/download/v${EGSYS_VERSION}/egsys-ubuntu" -O "$INSTALL_DIR/$APP_NAME" || {
         echo -e "${RED}[ERRO]${NC} Falha ao baixar binário"
         exit 1
     }
 elif command -v curl &> /dev/null; then
-    curl -fL "https://github.com/andreprado-egsys/egsys-tool-releases/releases/download/v${VERSION}/egsys-ubuntu" -o "$INSTALL_DIR/$APP_NAME" || {
+    curl -fL "https://github.com/andreprado-egsys/egsys-tool-releases/releases/download/v${EGSYS_VERSION}/egsys-ubuntu" -o "$INSTALL_DIR/$APP_NAME" || {
         echo -e "${RED}[ERRO]${NC} Falha ao baixar binário"
         exit 1
     }
