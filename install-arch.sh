@@ -1,5 +1,5 @@
 #!/bin/bash
-# egSYS SAPA Tool - Instalador Arch Linux v2.2.0
+# egSYS SAPA Tool - Instalador Arch Linux v2.2.1
 
 set -e
 
