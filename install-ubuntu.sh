@@ -1,5 +1,5 @@
 #!/bin/bash
-# egSYS SAPA Tool - Instalador Ubuntu/Debian v2.2.5
+# egSYS SAPA Tool - Instalador Ubuntu/Debian v2.2.6
 
 set -e
 
