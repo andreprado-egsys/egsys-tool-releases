@@ -1,75 +1,37 @@
-# egSYS SAPA Tool - Releases Públicos
+# egSYS Tool - Releases
 
-**Versão Atual: 2.2.2**
+**Versão Atual: 2.2.7**
 
-Sistema de Avaliação e Performance de Ambientes para gerenciamento multi-servidor.
+Binários pré-compilados do egSYS SAPA Tool - Sistema de Gerenciamento Multi-Servidor.
 
-## 🚀 Instalação Rápida
+## 📦 Instalação
 
-### Ubuntu / Debian / Zorin / Linux Mint
-```bash
-wget -qO- https://raw.githubusercontent.com/andreprado-egsys/egsys-tool-releases/main/install-ubuntu.sh | sudo bash
-```
-
-**Ou com curl:**
+### Ubuntu / Debian / Zorin / Linux Mint / Pop!_OS
 ```bash
 curl -fsSL https://raw.githubusercontent.com/andreprado-egsys/egsys-tool-releases/main/install-ubuntu.sh | sudo bash
 ```
 
-### Arch Linux / Manjaro / CachyOS / EndeavourOS
+### Arch Linux / Manjaro / CachyOS / EndeavourOS / Garuda
 ```bash
 curl -fsSL https://raw.githubusercontent.com/andreprado-egsys/egsys-tool-releases/main/install-arch.sh | sudo bash
 ```
 
-**Ou com wget:**
-```bash
-wget -qO- https://raw.githubusercontent.com/andreprado-egsys/egsys-tool-releases/main/install-arch.sh | sudo bash
-```
-
-## 📦 Binários Disponíveis
-
-- **egsys-ubuntu**: Compilado em Ubuntu 22.04 (Python 3.10, GLIBC 2.35)
-  - Compatível com: Ubuntu 20.04+, Debian 11+, Zorin OS, Linux Mint
-  
-- **egsys-arch**: Compilado em Arch Linux (Python 3.14, GLIBC 2.43)
-  - Compatível com: Arch Linux, Manjaro, CachyOS, EndeavourOS, Garuda
-
-## 🔧 Comandos Pós-Instalação
+## 🛠️ Comandos
 
 ```bash
-# Executar a ferramenta
-egsys
-
-# Atualizar para versão mais recente
-sudo egsys-update
-
-# Desinstalar
-sudo egsys-uninstall
+egsys              # Executar
+sudo egsys-update  # Atualizar
+sudo egsys-uninstall  # Desinstalar
 ```
 
-## 📋 Requisitos
+## 💻 Compatibilidade
 
-- Sistema operacional: Linux (64-bit)
-- Privilégios: sudo/root para instalação
-- Ferramentas: wget ou curl
-- Espaço em disco: ~10 MB
+### egsys-ubuntu (GLIBC 2.35)
+- Ubuntu 20.04+, Debian 11+, Zorin OS 16+, Linux Mint 20+, Pop!_OS 20.04+
 
-## 🔐 Segurança
-
-- Binários compilados em containers Docker isolados
-- Código-fonte mantido em repositório privado
-- Releases assinados e verificáveis via GitHub
-
-## 📝 Changelog
-
-Veja [CHANGELOG.md](CHANGELOG.md) para histórico completo de versões.
-
-## 🆘 Suporte
-
-Para problemas ou dúvidas:
-- Abra uma issue neste repositório
-- Entre em contato com a equipe egSYS
+### egsys-arch (GLIBC 2.43)
+- Arch Linux, Manjaro, CachyOS, EndeavourOS, Garuda Linux
 
 ## 📄 Licença
 
-Propriedade da egSYS. Todos os direitos reservados.
+Proprietary - egSYS © 2026
