@@ -1,6 +1,6 @@
 # egSYS Tool - Releases
 
-**Versão Atual: 2.2.7**
+**Versão Atual: 2.3.0**
 
 Binários pré-compilados do egSYS SAPA Tool - Sistema de Gerenciamento Multi-Servidor.
 
