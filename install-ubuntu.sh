@@ -71,13 +71,13 @@ mkdir -p "$INSTALL_DIR" "$BIN_DIR"
 
 echo -e "${CYAN}[DOWNLOAD]${NC} Baixando binário Ubuntu v${EGSYS_VERSION}..."
 
-if command -v wget &> /dev/null; then
-    wget -q --show-progress "https://github.com/andreprado-egsys/egsys-tool-releases/releases/download/v${EGSYS_VERSION}/egsys-ubuntu" -O "$INSTALL_DIR/$APP_NAME" || {
+if command -v curl &> /dev/null; then
+    curl -fL "https://github.com/andreprado-egsys/egsys-tool-releases/releases/download/v${EGSYS_VERSION}/egsys-ubuntu" -o "$INSTALL_DIR/$APP_NAME" || {
         echo -e "${RED}[ERRO]${NC} Falha ao baixar binário"
         exit 1
     }
-elif command -v curl &> /dev/null; then
-    curl -fL "https://github.com/andreprado-egsys/egsys-tool-releases/releases/download/v${EGSYS_VERSION}/egsys-ubuntu" -o "$INSTALL_DIR/$APP_NAME" || {
+elif command -v wget &> /dev/null; then
+    wget -q --show-progress "https://github.com/andreprado-egsys/egsys-tool-releases/releases/download/v${EGSYS_VERSION}/egsys-ubuntu" -O "$INSTALL_DIR/$APP_NAME" || {
         echo -e "${RED}[ERRO]${NC} Falha ao baixar binário"
         exit 1
     }
