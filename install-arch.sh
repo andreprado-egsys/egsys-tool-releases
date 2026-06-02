@@ -128,7 +128,7 @@ chmod 777 /var/log/egsys-tool
 for user_home in /home/*; do
     [ -d "$user_home" ] && {
         user=$(basename "$user_home")
-        sudo -u "$user" mkdir -p "$user_home/logs_scriptN1" 2>/dev/null || true
+        mkdir -p "$user_home/logs_scriptN1" 2>/dev/null || true
         chmod 777 "$user_home/logs_scriptN1" 2>/dev/null || true
     }
 done
