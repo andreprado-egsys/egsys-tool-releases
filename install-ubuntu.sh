@@ -1,9 +1,9 @@
 #!/bin/bash
-# egSYS SAPA Tool - Instalador Ubuntu/Debian v2.4.6
+# egSYS SAPA Tool - Instalador Ubuntu/Debian v2.4.7
 
 set -e
 
-EGSYS_VERSION="2.4.6"
+EGSYS_VERSION="2.4.7"
 APP_NAME="egsys"
 INSTALL_DIR="/opt/egsys-tool"
 BIN_DIR="/usr/local/bin"
