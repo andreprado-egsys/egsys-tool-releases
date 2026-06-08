@@ -1,9 +1,9 @@
 #!/bin/bash
-# egSYS SAPA Tool - Instalador Arch Linux v2.3.3
+# egSYS SAPA Tool - Instalador Arch Linux v2.3.4
 
 set -e
 
-EGSYS_VERSION="2.3.3"
+EGSYS_VERSION="2.3.4"
 APP_NAME="egsys"
 INSTALL_DIR="/opt/egsys-tool"
 BIN_DIR="/usr/local/bin"
