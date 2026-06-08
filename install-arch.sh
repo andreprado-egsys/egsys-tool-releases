@@ -1,9 +1,9 @@
 #!/bin/bash
-# egSYS SAPA Tool - Instalador Arch Linux v2.3.2
+# egSYS SAPA Tool - Instalador Arch Linux v2.3.3
 
 set -e
 
-EGSYS_VERSION="2.3.2"
+EGSYS_VERSION="2.3.3"
 APP_NAME="egsys"
 INSTALL_DIR="/opt/egsys-tool"
 BIN_DIR="/usr/local/bin"
@@ -128,7 +128,7 @@ chmod 777 /var/log/egsys-tool
 for user_home in /home/*; do
     [ -d "$user_home" ] && {
         user=$(basename "$user_home")
-        mkdir -p "$user_home/logs_scriptN1" 2>/dev/null || true
+        sudo -u "$user" mkdir -p "$user_home/logs_scriptN1" 2>/dev/null || true
         chmod 777 "$user_home/logs_scriptN1" 2>/dev/null || true
     }
 done
