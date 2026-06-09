@@ -137,9 +137,9 @@ cat > "$BIN_DIR/egsys-update" << 'EOFUPDATE'
 #!/bin/bash
 [ "$EUID" -ne 0 ] && echo -e "\033[0;31mERRO:\033[0m Execute como root" && exit 1
 if command -v wget &> /dev/null; then
-    wget -qO- https://raw.githubusercontent.com/andreprado-egsys/egsys-tool-releases/main/install-ubuntu.sh | bash
+    wget -qO- https://github.com/andreprado-egsys/egsys-tool-releases/raw/refs/heads/main/install-ubuntu.sh | bash
 else
-    curl -fsSL https://raw.githubusercontent.com/andreprado-egsys/egsys-tool-releases/main/install-ubuntu.sh | bash
+    curl -fsSL https://github.com/andreprado-egsys/egsys-tool-releases/raw/refs/heads/main/install-ubuntu.sh | bash
 fi
 EOFUPDATE
 chmod +x "$BIN_DIR/egsys-update"
