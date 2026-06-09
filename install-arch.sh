@@ -3,7 +3,7 @@
 
 set -e
 
-EGSYS_VERSION="2.4.9"
+EGSYS_VERSION="2.5.0"
 APP_NAME="egsys"
 INSTALL_DIR="/opt/egsys-tool"
 BIN_DIR="/usr/local/bin"
